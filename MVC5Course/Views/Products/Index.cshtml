@@ -11,7 +11,9 @@
 </p>
 
 <form action="/Products/Index" method="post">
-    <input type="search" name="keyword" value="" />
+    @*<input type="search" name="keyword" value="" />*@
+    @*將輸入欄位改用 @Html.TextBox("keyword") 輸出*@
+    @Html.TextBox("keyword")
     <input type="submit" name="" value="搜尋" />
 </form>
 
@@ -52,8 +54,11 @@
             <td>
                 @Html.DisplayFor(modelItem => item.ProductName)
             </td>
-            <td>
-                @Html.DisplayFor(modelItem => item.Price)
+            @*示範動態判斷 View 的顯示條件*@
+            <td class="@(item.Price > 100 ? "text-danger" : "")">
+                @*@Html.DisplayFor(modelItem => item.Price)*@
+                @*將 Price 顯示為沒有小數點（在 View 中實作）*@
+                @String.Format("{0:N0}", item.Price)
             </td>
             <td>
                 @Html.DisplayFor(modelItem => item.Active)
