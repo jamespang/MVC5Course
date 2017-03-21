@@ -7,6 +7,7 @@ using System.Net;
 using System.Web;
 using System.Web.Mvc;
 using MVC5Course.Models;
+using PagedList;
 
 namespace MVC5Course.Controllers
 {
@@ -15,7 +16,7 @@ namespace MVC5Course.Controllers
         private FabricsEntities db = new FabricsEntities();
 
         // GET: Products
-        public ActionResult Index(string keyword, string sortBy)
+        public ActionResult Index(string keyword, string sortBy, int? page)
         {
             ViewBag.controller = "James";
             ViewBag.keyword = keyword;
@@ -32,13 +33,22 @@ namespace MVC5Course.Controllers
             {
                 data = data.OrderBy(p => p.Price);
             }
-
-            if (sortBy == "-Price")
+            else if (sortBy == "-Price")
             {
                 data = data.OrderByDescending(p => p.Price);
             }
+            else
+            {
+                data = data.OrderByDescending(p => p.ProductId);
+            }
 
-            return View(data.Take(10));
+            //return View(data.Take(10));
+
+            //return View(data.ToPagedList(pageNo, 10));
+            var pageNumber = page ?? 1;
+            var onePageOfProducts = data.ToPagedList(pageNumber, 10);
+            ViewBag.onePageOfProducts = onePageOfProducts;
+            return View();
         }
 
         // GET: Products/Details/5

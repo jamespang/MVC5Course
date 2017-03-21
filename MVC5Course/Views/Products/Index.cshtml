@@ -29,15 +29,22 @@
     }
 </p>
 
+@using PagedList
+@using PagedList.Mvc
+
+@Html.PagedListPager((IPagedList)ViewBag.onePageOfProducts, page => Url.Action("Index", new { page }))
+
+@*@Html.PagedListPager(Model as IPagedList, (p) => Url.Action("Index", new { pageNo = }))*@
+
 <table class="table">
     <tr>
         <th>
             @Html.DisplayNameFor(model => model.ProductName)
         </th>
         <th>
-            <a href=@Url.Action("Index", "Products", new { keyword = ViewBag.keyword, sortBy = "+Price" })>↑</a>
+            <a href=@Url.Action("Index", "Products", new { keyword = ViewBag.keyword, sortBy = "+Price", page = ViewBag.page })>↑</a>
             @Html.DisplayNameFor(model => model.Price)
-            <a href=@Url.Action("Index", "Products", new { keyword = ViewBag.keyword, sortBy = "-Price" })>↓</a>
+            <a href=@Url.Action("Index", "Products", new { keyword = ViewBag.keyword, sortBy = "-Price", page = ViewBag.page })>↓</a>
         </th>
         <th>
             @Html.DisplayNameFor(model => model.Active)
@@ -48,23 +55,28 @@
         <th></th>
     </tr>
 
-    @foreach (var item in Model)
+    @foreach (var item in @*Model*@ViewBag.onePageOfProducts)
     {
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
+                @*@Html.DisplayFor(modelItem => item.ProductName)*@
+                @item.ProductName
+                
             </td>
             @*示範動態判斷 View 的顯示條件*@
             <td class="@(item.Price > 100 ? "text-danger" : "")">
                 @*@Html.DisplayFor(modelItem => item.Price)*@
                 @*將 Price 顯示為沒有小數點（在 View 中實作）*@
-                @String.Format("{0:N0}", item.Price)
+                @*String.Format("{0:N0}", item.Price)*@
+                @item.Price
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Active)
+                @*@Html.DisplayFor(modelItem => item.Active)*@
+                @item.Active
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Stock)
+                @*@Html.DisplayFor(modelItem => item.Stock)*@
+                @item.Stock
             </td>
             <td>
                 @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
@@ -73,7 +85,11 @@
             </td>
         </tr>
     }
-
-
-
 </table>
+
+<ul>
+    @foreach (var product in ViewBag.OnePageOfProducts)
+    {
+        <li>@product.ProductName</li>
+    }
+</ul>
