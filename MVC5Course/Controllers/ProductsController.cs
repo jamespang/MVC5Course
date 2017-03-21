@@ -22,6 +22,7 @@ namespace MVC5Course.Controllers
             ViewBag.keyword = keyword;
 
             //return View(db.Product.ToList().OrderByDescending(p => p.ProductId).Take(10));
+
             var data = db.Product.AsQueryable();
 
             if (!String.IsNullOrEmpty(keyword))
@@ -44,11 +45,12 @@ namespace MVC5Course.Controllers
 
             //return View(data.Take(10));
 
-            //return View(data.ToPagedList(pageNo, 10));
             var pageNumber = page ?? 1;
-            var onePageOfProducts = data.ToPagedList(pageNumber, 10);
-            ViewBag.onePageOfProducts = onePageOfProducts;
-            return View();
+            return View(data.ToPagedList(pageNumber, 10));
+
+            //var onePageOfProducts = data.ToPagedList(pageNumber, 10);
+            //ViewBag.onePageOfProducts = onePageOfProducts;
+            //return View();
         }
 
         // GET: Products/Details/5
