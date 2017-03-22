@@ -401,6 +401,7 @@
     <Content Include="Views\Home\Login.cshtml" />
     <Content Include="Views\Shared\_Pager.cshtml" />
     <Content Include="Views\AR\Index.cshtml" />
+    <Content Include="Views\AR\View3.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
@@ -413,6 +414,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Views\Base\" />
+    <Folder Include="Views\Default\" />
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
