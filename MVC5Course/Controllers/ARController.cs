@@ -23,5 +23,22 @@ namespace MVC5Course.Controllers
         {
             return View();
         }
+
+        public ActionResult Content1()
+        {
+            return Content("<script>alert('新增成功');location.href='/';</script>");
+        }
+
+        public ActionResult File1()
+        {
+            //return File(@"C:\Users\James Pang\Downloads\狂新聞.png", "image/png");
+            return File(Server.MapPath("~/Content/狂新聞.png"), "image/png");
+        }
+
+        public ActionResult File2()
+        {
+            //return File(@"C:\Users\James Pang\Downloads\狂新聞.png", "image/png");
+            return File(Server.MapPath("~/Content/狂新聞.png"), "image/png", "圖片下載.png");
+        }
     }
 }
