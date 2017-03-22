@@ -24,7 +24,7 @@ namespace MVC5Course.Models
         {
             if (!this.LoginCheck())
             {
-                yield return new ValidationResult("登入失敗", new string[] { "Username", "Password" });
+                yield return new ValidationResult("登入失敗", new string[] { "Username" });
                 yield break;
             }
             //throw new NotImplementedException();
