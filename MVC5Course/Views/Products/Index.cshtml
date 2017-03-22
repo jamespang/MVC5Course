@@ -29,12 +29,7 @@
     }
 </p>
 
-@using PagedList
-@using PagedList.Mvc
-
-@*@Html.PagedListPager((IPagedList)ViewBag.onePageOfProducts, page => Url.Action("Index", new { page }))*@
-
-@Html.PagedListPager(Model as IPagedList, (p) => Url.Action("Index", new { page = p }))
+@Html.Partial("_Pager", Model)
 
 <table class="table">
     <tr>
