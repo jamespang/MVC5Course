@@ -39,7 +39,9 @@ namespace MVC5Course.Controllers
                 data = data.OrderByDescending(p => p.ProductId);
             }
             var pageNumber = page ?? 1;
-            return View(data.ToPagedList(pageNumber, 10));
+            //return View(data.ToPagedList(pageNumber, 10));
+            ViewData.Model = data.ToPagedList(pageNumber, 10);
+            return View();
         }
 
         // GET: Products/Details/5
