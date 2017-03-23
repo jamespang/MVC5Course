@@ -62,20 +62,20 @@
         @Html.HiddenFor(modelItem => data[i].ProductId)
         <tr>
             <td>
-                @Html.EditorFor(modeItem => data[i].ProductName)
+                @Html.EditorFor(modelItem => data[i].ProductName, null, "data[" + i + "].ProductName")
                 @Html.ValidationMessageFor(modelItem => data[i].ProductName)
             </td>
             @*示範動態判斷 View 的顯示條件*@
             <td class="@(data[i].Price > 100 ? "text-danger" : "")">
-                NT$ @Html.EditorFor(modeItem => data[i].Price)
+                NT$ @Html.EditorFor(modelItem => data[i].Price)
                 @Html.ValidationMessageFor(modelItem => data[i].Price)
             </td>
             <td>
-                @Html.EditorFor(modeItem => data[i].Active)
+                @Html.EditorFor(modelItem => data[i].Active)
                 @Html.ValidationMessageFor(modelItem => data[i].Active)
             </td>
             <td>
-                @Html.EditorFor(modeItem => data[i].Stock)
+                @Html.EditorFor(modelItem => data[i].Stock)
                 @Html.ValidationMessageFor(modelItem => data[i].Stock)
             </td>
             <td>
