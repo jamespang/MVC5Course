@@ -15,32 +15,29 @@ namespace MVC5Course.Controllers
     public class ProductsController : BaseController
     {
         // GET: Products
-        public ActionResult Index(string keyword, string sortBy, int? page)
+        public ActionResult Index(string keyword, string sortBy, /*int? page*/int pageNo = 1)
         {
-            ViewBag.controller = "James";
-            ViewBag.keyword = keyword;
+            DoSearchOnIndex(keyword, sortBy, pageNo);
+            return View();
+        }
 
-            var data = repoProduct.All().AsQueryable();
-            
-            if (!String.IsNullOrEmpty(keyword))
+        [HttpPost]
+        public ActionResult Index(Product[] data, string keyword, string sortBy, int pageNo = 1)
+        {
+            if (ModelState.IsValid)
             {
-                data = repoProduct.Where(p => p.ProductName.Contains(keyword));
+                foreach (var item in data)
+                {
+                    var prod = repoProduct.Find(item.ProductId);
+                    prod.ProductName = item.ProductName;
+                    prod.Price = item.Price;
+                    prod.Stock = item.Stock;
+                    prod.Active = item.Active;
+                }
+                repoProduct.UnitOfWork.Commit();
+                return RedirectToAction("Index");
             }
-            if (sortBy == "+Price")
-            {
-                data = data.OrderBy(p => p.Price);
-            }
-            else if (sortBy == "-Price")
-            {
-                data = data.OrderByDescending(p => p.Price);
-            }
-            else
-            {
-                data = data.OrderByDescending(p => p.ProductId);
-            }
-            var pageNumber = page ?? 1;
-            //return View(data.ToPagedList(pageNumber, 10));
-            ViewData.Model = data.ToPagedList(pageNumber, 10);
+            DoSearchOnIndex(keyword, sortBy, pageNo);
             return View();
         }
 
@@ -147,6 +144,32 @@ namespace MVC5Course.Controllers
                 db.Dispose();   
             }
             base.Dispose(disposing);
+        }
+
+        private void DoSearchOnIndex(string keyword, string sortBy, int pageNo)
+        {
+            ViewBag.keyword = keyword;
+
+            var data = repoProduct.All().AsQueryable();
+
+            if (!String.IsNullOrEmpty(keyword))
+            {
+                data = repoProduct.Where(p => p.ProductName.Contains(keyword));
+            }
+            if (sortBy == "+Price")
+            {
+                data = data.OrderBy(p => p.Price);
+            }
+            else if (sortBy == "-Price")
+            {
+                data = data.OrderByDescending(p => p.Price);
+            }
+            else
+            {
+                data = data.OrderByDescending(p => p.ProductId);
+            }
+
+            ViewData.Model = data.ToPagedList(pageNo, 10);
         }
     }
 }

@@ -49,38 +49,45 @@
         </th>
         <th></th>
     </tr>
+    @*
+        item.ProductName
+        data[0].ProductName
+    *@
+    @{
+        var data = Model.ToArray();
+    }
 
-    @foreach (var item in Model@*ViewBag.onePageOfProducts*@)
+    @for (var i = 0; i < data.Length; i++@*ViewBag.onePageOfProducts*@)
     {
+        @Html.HiddenFor(modelItem => data[i].ProductId)
         <tr>
             <td>
-                @Html.DisplayFor(modelItem => item.ProductName)
-                @*@item.ProductName*@
-                
+                @Html.EditorFor(modeItem => data[i].ProductName)
+                @Html.ValidationMessageFor(modelItem => data[i].ProductName)
             </td>
             @*示範動態判斷 View 的顯示條件*@
-            <td class="@(item.Price > 100 ? "text-danger" : "")">
-                @*@Html.DisplayFor(modelItem => item.Price)*@
-                @*將 Price 顯示為沒有小數點（在 View 中實作）*@
-                @String.Format("{0:N0}", item.Price)
-                @*@item.Price*@
+            <td class="@(data[i].Price > 100 ? "text-danger" : "")">
+                NT$ @Html.EditorFor(modeItem => data[i].Price)
+                @Html.ValidationMessageFor(modelItem => data[i].Price)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Active)
-                @*@item.Active*@
+                @Html.EditorFor(modeItem => data[i].Active)
+                @Html.ValidationMessageFor(modelItem => data[i].Active)
             </td>
             <td>
-                @Html.DisplayFor(modelItem => item.Stock)
-                @*@item.Stock*@
+                @Html.EditorFor(modeItem => data[i].Stock)
+                @Html.ValidationMessageFor(modelItem => data[i].Stock)
             </td>
             <td>
-                @Html.ActionLink("Edit", "Edit", new { id = item.ProductId }) |
-                @Html.ActionLink("Details", "Details", new { id = item.ProductId }) |
-                @Html.ActionLink("Delete", "Delete", new { id = item.ProductId })
+                @Html.ActionLink("Edit", "Edit", new { id = data[i].ProductId }) |
+                @Html.ActionLink("Details", "Details", new { id = data[i].ProductId }) |
+                @Html.ActionLink("Delete", "Delete", new { id = data[i].ProductId })
             </td>
         </tr>
     }
 </table>
+
+<input type="submit" value="送出" />
 
 @*<ul>
     @foreach (var product in ViewBag.OnePageOfProducts)
