@@ -29,9 +29,9 @@ namespace MVC5Course.Models
 
         public override void Delete(Product entity)
         {
-            //base.Delete(entity);
-            this.UnitOfWork.Context.Configuration.ValidateOnSaveEnabled = false;
-            entity.IsDeleted = true;
+            base.Delete(entity);
+            //this.UnitOfWork.Context.Configuration.ValidateOnSaveEnabled = false;
+            //entity.IsDeleted = true;
         }
     }
 

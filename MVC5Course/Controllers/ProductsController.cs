@@ -6,6 +6,7 @@ using System.Web.Mvc;
 using MVC5Course.Models;
 using PagedList;
 using System.Web.UI;
+using System.Data.Entity.Validation;
 
 namespace MVC5Course.Controllers
 {
@@ -96,15 +97,17 @@ namespace MVC5Course.Controllers
         // 詳細資訊，請參閱 http://go.microsoft.com/fwlink/?LinkId=317598。
         [HttpPost]
         [ValidateAntiForgeryToken]
+        [HandleError(ExceptionType = typeof(DbEntityValidationException), View = "Error_DbEntityValidationException")]
         public ActionResult Edit(int id, FormCollection form)
         {
             var product = repoProduct.Find(id);
             if (TryUpdateModel(product, new string[] { "ProductName", "Stock" }))
             {
-                repoProduct.UnitOfWork.Commit();
-                return RedirectToAction("Index");
+
             }
-            return View(product);
+            repoProduct.UnitOfWork.Commit();
+            return RedirectToAction("Index");
+            //return View(product);
         }
 
         // GET: Products/Delete/5
